@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    max-width: 700px; /* Increase width */
+    margin: 50px auto;
+    padding: 30px 40px; /* Increase padding */
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.list-container {
+    padding: 20px; /* Add padding */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0;
+    padding-right: 5%;
+}
+
+#listNameInput {
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#newTaskInput {
+    width: 82%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.dropdown-container {
+    position: relative;
+    width: 40%;
+}
+
+.delete-list {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ff4d4d;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.delete-list:hover {
+    background-color: #cc0000;
+}
+
+#listSelector {
+    width: 100%;
+    padding: 10px;
+    padding-right: 35px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+    appearance: none; /* To remove the default dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+}
+
+
+#listSelector option {
+    padding: 5px;
+    background-color: #f9f9f9;
+}
+
+button {
+    padding: 5px 5px;
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+#addTaskBtn {
+    padding: 10px 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+li:last-child {
+    margin-bottom: 0;
+}
+
+li button {
+    background-color: #ff4d4d; /* Red color for delete button */
+}
+
+li button:hover {
+    background-color: #cc0000; /* Darker red for hover effect on delete button */
+}

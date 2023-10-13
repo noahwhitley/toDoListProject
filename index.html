@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <nav>
+            <h1>Listo</h1>
+            <input type="text" id="listNameInput" placeholder="Enter List Name...">
+            <button id="createListBtn">Create List</button>
+            <div class="dropdown-container">
+                <select id="listSelector">
+                    <!-- Options will be populated here -->
+                </select>
+            </div>
+            
+        </nav>
+
+        <!-- Main Content Area -->
+        <main>
+            <div class="list-container">
+                <input type="text" id="newTaskInput" placeholder="Enter task...">
+                <button id="addTaskBtn">Add</button>
+
+                <ul id="taskList">
+                    <!-- List items will go here -->
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
