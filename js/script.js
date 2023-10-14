@@ -38,7 +38,6 @@ function renderTasks() {
         span.textContent = task;
         li.appendChild(span);
 
-        // Delete button for each task
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete';
         deleteBtn.onclick = function() {
@@ -66,7 +65,7 @@ function addTask() {
         tasks[currentList] = [];
     }
 
-    tasks[currentList].push(taskText);  // Make sure the taskText is being pushed
+    tasks[currentList].push(taskText);
     saveTasks();
 
     newTaskInput.value = '';

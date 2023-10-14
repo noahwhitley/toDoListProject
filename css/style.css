@@ -109,11 +109,11 @@ button:hover {
 }
 
 li button {
-    background-color: #ff4d4d; /* Red color for delete button */
+    background-color: #ff4d4d;
 }
 
 li button:hover {
-    background-color: #cc0000; /* Darker red for hover effect on delete button */
+    background-color: #cc0000;
 }
 
 .edit-task {
@@ -148,8 +148,8 @@ li {
 }
 
 li span {
-    flex: 1;  /* This will allow the span containing the task text to take up all available space, pushing the buttons to the end */
-    margin-left: 10px;  /* Small margin for better spacing */
+    flex: 1;
+    margin-left: 10px; 
 }
 
 
