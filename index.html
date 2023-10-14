@@ -10,30 +10,33 @@
 
 <body>
     <div class="app-container">
-        <!-- Navigation Bar -->
+        <!-- nav -->
         <nav>
             <h1>Listo</h1>
             <input type="text" id="listNameInput" placeholder="Enter List Name...">
             <button id="createListBtn">Create List</button>
             <div class="dropdown-container">
                 <select id="listSelector">
-                    <!-- Options will be populated here -->
+                    <!-- lists -->
                 </select>
             </div>
             
         </nav>
 
-        <!-- Main Content Area -->
+        <!-- content -->
         <main>
             <div class="list-container">
-                <input type="text" id="newTaskInput" placeholder="Enter task...">
-                <button id="addTaskBtn">Add</button>
-
+                <div class="input-btn-container">
+                    <input type="text" id="newTaskInput" placeholder="Enter task...">
+                    <button id="addTaskBtn">Add</button>
+                </div>
                 <ul id="taskList">
-                    <!-- List items will go here -->
+                    <!-- list items -->
                 </ul>
+                <button id="removeCompletedTasksBtn">Remove Completed Tasks</button>
             </div>
         </main>
+
     </div>
 
     <script src="js/script.js"></script>

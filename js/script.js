@@ -6,11 +6,12 @@ const listSelectorContainer = document.querySelector('.dropdown-container');
 const listNameInput = document.getElementById('listNameInput');
 const createListBtn = document.getElementById('createListBtn');
 
+
 let tasks = JSON.parse(localStorage.getItem('tasks')) || {};
 
 let currentList = 'default';
 
-// Functions
+//functions
 
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -21,7 +22,21 @@ function renderTasks() {
 
     for (const task of tasks[currentList] || []) {
         const li = document.createElement('li');
-        li.textContent = task;
+    
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                span.classList.add('completed');
+            } else {
+                span.classList.remove('completed');
+            }
+        });
+        li.appendChild(checkbox);
+    
+        const span = document.createElement('span');
+        span.textContent = task;
+        li.appendChild(span);
 
         // Delete button for each task
         const deleteBtn = document.createElement('button');
@@ -37,6 +52,8 @@ function renderTasks() {
     }
 }
 
+
+
 function addTask() {
     const taskText = newTaskInput.value.trim();
 
@@ -49,12 +66,14 @@ function addTask() {
         tasks[currentList] = [];
     }
 
-    tasks[currentList].push(taskText);
+    tasks[currentList].push(taskText);  // Make sure the taskText is being pushed
     saveTasks();
 
     newTaskInput.value = '';
     renderTasks();
 }
+
+
 
 function createList() {
     const listName = listNameInput.value.trim();
@@ -79,6 +98,18 @@ function deleteList(listName) {
     renderTasks();
 }
 
+function removeCompletedTasks() {
+    tasks[currentList] = tasks[currentList].filter((task, index) => {
+        const listItem = taskList.children[index];
+        const checkbox = listItem.querySelector('input[type="checkbox"]');
+        return !checkbox.checked;
+    });
+    saveTasks();
+    renderTasks();
+}
+
+
+
 function populateListSelector() {
     listSelectorContainer.innerHTML = '<select id="listSelector"></select>';
     const listSelector = document.getElementById('listSelector');
@@ -90,7 +121,6 @@ function populateListSelector() {
         listSelector.appendChild(option);
     }
 
-    // Add delete button for current list
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Delete List";
     deleteButton.className = "delete-list";
@@ -112,10 +142,11 @@ function populateListSelector() {
     });
 }
 
-// Event Listeners
+//eventlisteners
 
 addTaskBtn.addEventListener('click', addTask);
 
+removeCompletedTasksBtn.addEventListener('click', removeCompletedTasks);
 newTaskInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         addTask();
@@ -123,8 +154,6 @@ newTaskInput.addEventListener('keypress', function(e) {
 });
 
 createListBtn.addEventListener('click', createList);
-
-// Initialization
 
 function init() {
     populateListSelector();
