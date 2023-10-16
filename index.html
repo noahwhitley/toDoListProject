@@ -30,9 +30,10 @@
                     <input type="text" id="newTaskInput" placeholder="Enter task...">
                     <button id="addTaskBtn">Add</button>
                 </div>
-                <ul id="taskList">
+                <ul id="taskList" ondragover="allowDrop(event)" ondrop="drop(event)">
                     <!-- list items -->
                 </ul>
+                
                 <button id="removeCompletedTasksBtn">Remove Completed Tasks</button>
             </div>
         </main>

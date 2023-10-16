@@ -1,78 +1,82 @@
-//creating constants
+// Creating constants
 const taskList = document.getElementById('taskList');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const newTaskInput = document.getElementById('newTaskInput');
 const listSelectorContainer = document.querySelector('.dropdown-container');
 const listNameInput = document.getElementById('listNameInput');
 const createListBtn = document.getElementById('createListBtn');
-
+const removeCompletedTasksBtn = document.getElementById('removeCompletedTasksBtn');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || {};
-
 let currentList = 'default';
 
-//functions
+// Functions
 
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function renderTasks() {
-    taskList.innerHTML = ''; // Clear the current tasks
+    taskList.innerHTML = '';
 
     for (const [index, task] of (tasks[currentList] || []).entries()) {
-        const li = document.createElement('li');
+        if (task && 'text' in task) {
+            const li = document.createElement('li');
+            li.draggable = true;
+            li.setAttribute('data-index', index);
 
-        // Checkbox for marking task as complete
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    span.classList.add('completed');
+                } else {
+                    span.classList.remove('completed');
+                }
+
+                if (task && 'completed' in task) {
+                    task.completed = checkbox.checked;
+                    saveTasks();
+                }
+            });
+            li.appendChild(checkbox);
+
+            const span = document.createElement('span');
+            span.textContent = task.text;
+            if (task && 'completed' in task && task.completed) {
                 span.classList.add('completed');
-            } else {
-                span.classList.remove('completed');
+                checkbox.checked = true;
             }
-        });
-        li.appendChild(checkbox);
+            li.appendChild(span);
 
-        const span = document.createElement('span');
-        span.textContent = task;
-        if (tasks[currentList][index].completed) {
-            span.classList.add('completed');
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.className = 'edit-button';
+            editBtn.addEventListener('click', function() {
+                const updatedText = prompt('Edit the task:', task.text);
+                if (updatedText !== null) {
+                    task.text = updatedText;
+                    saveTasks();
+                    renderTasks();
+                }
+            });
+            li.appendChild(editBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', function() {
+                if (task && 'text' in task) {
+                    tasks[currentList] = tasks[currentList].filter((t, idx) => idx !== index);
+                    saveTasks();
+                    renderTasks();
+                }
+            });
+            li.appendChild(deleteBtn);
+
+            taskList.appendChild(li);
         }
-        li.appendChild(span);
-
-        // Edit button
-        const editBtn = document.createElement('button');
-        editBtn.textContent = 'Edit';
-        editBtn.className = 'edit-button'; // Add the class for styling
-        editBtn.addEventListener('click', function() {
-            const updatedText = prompt('Edit the task:', tasks[currentList][index]);
-            if (updatedText !== null) {
-                tasks[currentList][index] = updatedText;
-                saveTasks();
-                renderTasks();
-            }
-        });
-        li.appendChild(editBtn);
-        
-
-        // Delete button
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.addEventListener('click', function() {
-            tasks[currentList].splice(index, 1);
-            saveTasks();
-            renderTasks();
-        });
-        li.appendChild(deleteBtn);
-
-        taskList.appendChild(li);
     }
 }
-
-
-
 
 function addTask() {
     const taskText = newTaskInput.value.trim();
@@ -86,14 +90,12 @@ function addTask() {
         tasks[currentList] = [];
     }
 
-    tasks[currentList].push(taskText);
+    tasks[currentList].push({ text: taskText, completed: false });
     saveTasks();
 
     newTaskInput.value = '';
     renderTasks();
 }
-
-
 
 function createList() {
     const listName = listNameInput.value.trim();
@@ -119,16 +121,10 @@ function deleteList(listName) {
 }
 
 function removeCompletedTasks() {
-    tasks[currentList] = tasks[currentList].filter((task, index) => {
-        const listItem = taskList.children[index];
-        const checkbox = listItem.querySelector('input[type="checkbox"]');
-        return !checkbox.checked;
-    });
+    tasks[currentList] = tasks[currentList].filter(task => !task.completed);
     saveTasks();
     renderTasks();
 }
-
-
 
 function populateListSelector() {
     listSelectorContainer.innerHTML = '<select id="listSelector"></select>';
@@ -142,8 +138,8 @@ function populateListSelector() {
     }
 
     const deleteButton = document.createElement('button');
-    deleteButton.textContent = "Delete List";
-    deleteButton.className = "delete-list";
+    deleteButton.textContent = 'Delete List';
+    deleteButton.className = 'delete-list';
     deleteButton.onclick = function() {
         const selectedList = listSelector.value;
         if (selectedList === 'default') {
@@ -162,10 +158,8 @@ function populateListSelector() {
     });
 }
 
-//eventlisteners
-
+// Event Listeners
 addTaskBtn.addEventListener('click', addTask);
-
 removeCompletedTasksBtn.addEventListener('click', removeCompletedTasks);
 newTaskInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
@@ -176,6 +170,12 @@ newTaskInput.addEventListener('keypress', function(e) {
 createListBtn.addEventListener('click', createList);
 
 function init() {
+    tasks = JSON.parse(localStorage.getItem('tasks')) || {};
+
+    if (!Array.isArray(tasks['default'])) {
+        tasks['default'] = [];
+    }
+
     populateListSelector();
     renderTasks();
 }

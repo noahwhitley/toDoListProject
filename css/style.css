@@ -83,7 +83,6 @@ h1 {
     background-color: #fff;
 }
 
-
 #listSelector option {
     padding: 5px;
     background-color: #f9f9f9;
@@ -117,7 +116,7 @@ li button:hover {
 }
 
 li button.edit-button {
-    background-color: #5f8b62; /* Green color */
+    background-color: #5f8b62;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -127,9 +126,8 @@ li button.edit-button {
 }
 
 li button.edit-button:hover {
-    background-color: #405e41; /* Darker green for hover effect on edit button */
+    background-color: #405e41;
 }
-
 
 .edit-task {
     border: none;
@@ -166,7 +164,6 @@ li span {
     flex: 1;
     margin-left: 10px; 
 }
-
 
 li:last-child {
     margin-bottom: 0;
