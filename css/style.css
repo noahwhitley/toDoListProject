@@ -116,6 +116,21 @@ li button:hover {
     background-color: #cc0000;
 }
 
+li button.edit-button {
+    background-color: #5f8b62; /* Green color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+li button.edit-button:hover {
+    background-color: #405e41; /* Darker green for hover effect on edit button */
+}
+
+
 .edit-task {
     border: none;
     background-color: transparent;

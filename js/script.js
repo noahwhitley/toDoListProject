@@ -20,9 +20,10 @@ function saveTasks() {
 function renderTasks() {
     taskList.innerHTML = ''; // Clear the current tasks
 
-    for (const task of tasks[currentList] || []) {
+    for (const [index, task] of (tasks[currentList] || []).entries()) {
         const li = document.createElement('li');
-    
+
+        // Checkbox for marking task as complete
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.addEventListener('change', function() {
@@ -33,23 +34,43 @@ function renderTasks() {
             }
         });
         li.appendChild(checkbox);
-    
+
         const span = document.createElement('span');
         span.textContent = task;
+        if (tasks[currentList][index].completed) {
+            span.classList.add('completed');
+        }
         li.appendChild(span);
 
+        // Edit button
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit';
+        editBtn.className = 'edit-button'; // Add the class for styling
+        editBtn.addEventListener('click', function() {
+            const updatedText = prompt('Edit the task:', tasks[currentList][index]);
+            if (updatedText !== null) {
+                tasks[currentList][index] = updatedText;
+                saveTasks();
+                renderTasks();
+            }
+        });
+        li.appendChild(editBtn);
+        
+
+        // Delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete';
-        deleteBtn.onclick = function() {
-            tasks[currentList] = tasks[currentList].filter(t => t !== task);
+        deleteBtn.addEventListener('click', function() {
+            tasks[currentList].splice(index, 1);
             saveTasks();
             renderTasks();
-        };
+        });
         li.appendChild(deleteBtn);
 
         taskList.appendChild(li);
     }
 }
+
 
 
 
