@@ -1,4 +1,4 @@
-// Creating constants
+//constants
 const taskList = document.getElementById('taskList');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const newTaskInput = document.getElementById('newTaskInput');
@@ -10,7 +10,7 @@ const removeCompletedTasksBtn = document.getElementById('removeCompletedTasksBtn
 let tasks = JSON.parse(localStorage.getItem('tasks')) || {};
 let currentList = 'default';
 
-// Functions
+//functions
 
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -22,9 +22,10 @@ function renderTasks() {
     for (const [index, task] of (tasks[currentList] || []).entries()) {
         if (task && 'text' in task) {
             const li = document.createElement('li');
-            li.draggable = true;
+
             li.setAttribute('data-index', index);
 
+            //mark task as complete
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.addEventListener('change', function() {
@@ -33,7 +34,6 @@ function renderTasks() {
                 } else {
                     span.classList.remove('completed');
                 }
-
                 if (task && 'completed' in task) {
                     task.completed = checkbox.checked;
                     saveTasks();
@@ -49,6 +49,20 @@ function renderTasks() {
             }
             li.appendChild(span);
 
+            //up and down arrows
+            const upArrow = document.createElement('button');
+            upArrow.textContent = '↑';
+            upArrow.className = 'reorder-button';
+            upArrow.addEventListener('click', () => moveTaskUp(index));
+            li.appendChild(upArrow);
+
+            const downArrow = document.createElement('button');
+            downArrow.textContent = '↓';
+            downArrow.className = 'reorder-button';
+            downArrow.addEventListener('click', () => moveTaskDown(index));
+            li.appendChild(downArrow);
+
+            //edit
             const editBtn = document.createElement('button');
             editBtn.textContent = 'Edit';
             editBtn.className = 'edit-button';
@@ -62,6 +76,7 @@ function renderTasks() {
             });
             li.appendChild(editBtn);
 
+            //delete
             const deleteBtn = document.createElement('button');
             deleteBtn.textContent = 'Delete';
             deleteBtn.addEventListener('click', function() {
@@ -126,6 +141,22 @@ function removeCompletedTasks() {
     renderTasks();
 }
 
+function moveTaskUp(index) {
+    if (index > 0) {
+        [tasks[currentList][index - 1], tasks[currentList][index]] = [tasks[currentList][index], tasks[currentList][index - 1]];
+        saveTasks();
+        renderTasks();
+    }
+}
+
+function moveTaskDown(index) {
+    if (index < tasks[currentList].length - 1) {
+        [tasks[currentList][index], tasks[currentList][index + 1]] = [tasks[currentList][index + 1], tasks[currentList][index]];
+        saveTasks();
+        renderTasks();
+    }
+}
+
 function populateListSelector() {
     listSelectorContainer.innerHTML = '<select id="listSelector"></select>';
     const listSelector = document.getElementById('listSelector');
@@ -158,7 +189,7 @@ function populateListSelector() {
     });
 }
 
-// Event Listeners
+//event listener
 addTaskBtn.addEventListener('click', addTask);
 removeCompletedTasksBtn.addEventListener('click', removeCompletedTasks);
 newTaskInput.addEventListener('keypress', function(e) {

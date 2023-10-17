@@ -146,6 +146,21 @@ li button.edit-button:hover {
     color: #999;
 }
 
+.reorder-button {
+    background-color: #7541b1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+
+.reorder-button:hover {
+    background-color: #632374;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
